@@ -2,34 +2,29 @@ import React, { useState } from 'react';
 import './App.css';
 import SpotifyApi from './utilities/spotifyapi.js';
 import SearchBar from './components/SearchBar';
+import TrackList from './components/TrackList';
 
 function App() {
-
+  // Create Spotify API wrapper class 
   const api = new SpotifyApi();
-  const [ data, setData ] = useState([]);
+
+  // Spotify result, currently selected track
+  const [ tracks, setTracks ] = useState([]);
+  const [ selection, setSelection ] = useState(null);
+
+  // Search Parameters 
   const [ track, setTrack] = useState('');
   const [ artist, setArtist] = useState('');
   const [ option, setOption ] = useState('');
-
-  let tracklist = [];
-
-  if ( data ) {
-    tracklist = data.map( (x,i) => {
-      return(
-        <li key={Date.now()+i}>Track: {x.name}, Album: {x.album.name}</li>  
-      );
-    });
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
 
     const data = await api.getTracks(artist, track);
-    const tracks = data.tracks;
-
-    console.log('Saving data:', tracks.items);
+    
+    console.log('Saving data:', data.tracks.items[0]);
   
-    setData( (x) => tracks.items);
+    setTracks( (x) => data.tracks.items);
   }
 
   const handleChange = (event) => {
@@ -46,27 +41,26 @@ function App() {
     setter( () => val);
   };
 
-  const handleClick = ({target}) => {
+  const handleOption = ({target}) => {
     setOption( () => target.id );
+  }
 
+  const handleTrack = ({target}) => {
+    console.log(`handleTrack ${target.id}`);
+    setSelection( () => target.track );
   }
 
   return (
     <div className="App">
       <header className="App-header">
         <h3>CodeCademy Jammming Portfolio Project</h3>
-        <SearchBar onClick={handleClick} onChange={handleChange} 
+        <SearchBar onClick={handleOption} onChange={handleChange} 
           onSubmit={handleSubmit} selected={option} />
+          <p className='App-searchstat'>[Search by]: Track: {track} Artist: {artist} Option: {option} </p>
       </header>
       <main className="App-main">
-         <p>Track: {track} Artist: {artist} Option: {option} </p>
-        <div className="App-data">
-            <ol id='tracks'>
-              {tracklist}
-            </ol>
-          </div>
-          <hr/>
-        </main>
+        <TrackList tracks={tracks} handleTrack={handleTrack} />
+      </main>
     </div>
   );
 }

@@ -26,8 +26,8 @@ function SearchBar ({onClick, onChange, onSubmit, selected}) {
             <br/>
             <form action='' id='searchbar' onSubmit={onSubmit} >
                 {fieldTags}
-                <br/>
                 <input type='submit' value='Search' id='search'/>
+                <br/>
             </form>
         </div> 
     );

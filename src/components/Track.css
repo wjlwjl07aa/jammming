@@ -1,0 +1,22 @@
+.Track {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    border: 1px dotted black;
+    text-align: left;
+    display: block;
+}
+
+.Artist {
+    width: 20ch;
+    display: inline-block;
+}
+
+.Album {
+    width: 40ch;
+    display: inline-block;
+}
+
+.TrackName {
+    width: 40ch;
+    display: inline-block;
+}

@@ -14,6 +14,10 @@
     border: 0;
 }
 
+.SearchBar input[type='submit'] {
+    display: inline-block;
+}
+
 .SearchBar button[name='selected'] {
     color: yellow;
     font-weight: 900; 
