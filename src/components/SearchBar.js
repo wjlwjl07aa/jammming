@@ -3,7 +3,7 @@ import './SearchBar.css';
 
 
 function SearchBar ({onClick, onChange, onSubmit, selected}) {
-    const menu = [  ['Option 1','option_1'],['Option 2','option_2']];
+    const menu = [ ];
     const buttons = menu.map( x => {
         const name = x[1] === selected ? 'selected' : ''; 
         return ( <button id={x[1]} value={x[1]} key={x[1]} name={name} onClick={onClick}>{x[0]}</button> )
@@ -27,7 +27,6 @@ function SearchBar ({onClick, onChange, onSubmit, selected}) {
             <form action='' id='searchbar' onSubmit={onSubmit} >
                 {fieldTags}
                 <input type='submit' value='Search' id='search'/>
-                <br/>
             </form>
         </div> 
     );

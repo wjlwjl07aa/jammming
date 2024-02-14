@@ -3,14 +3,13 @@ import Track from './Track';
 import './TrackList.css';
 
 function TrackList({tracks, trackHandler}) {
-    if ( !tracks || !tracks.length ) 
-        return(<p className='TrackList'>No matches found</p>); 
-
-    const items = tracks.map( (x,i) => {
-        const key = 'track_' + i; 
-        return( <Track track={x} key={key} trackHandle={trackHandler}/> );
-    });
-
+    const items = 
+        tracks ? 
+            tracks.map( (x,i) => {
+                const key = 'track_' + i; 
+                return( <Track track={x} key={key} trackHandle={trackHandler}/> );
+            }) :  null;
+    
     return( 
         <div className = 'TrackList' id='TrackList'>
             <div className='tl-heading'>
@@ -19,7 +18,7 @@ function TrackList({tracks, trackHandler}) {
                 <p className='tl-col3'>Track</p>
              </div> 
              <div className='tl-items'>
-                { items }
+                { items || 'No Tracks Found'}
             </div>
         </div>
     );

@@ -4,6 +4,7 @@
     border: 1px dotted black;
     text-align: left;
     display: block;
+    width: 100%;
 }
 
 .Artist {
@@ -19,4 +20,11 @@
 .TrackName {
     width: 40ch;
     display: inline-block;
+}
+
+.AddToPlayList {
+    font-weight: 700;
+    border-radius: 100%;
+    float: right;
+    margin: 10px;
 }

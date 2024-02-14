@@ -55,7 +55,7 @@ class SpotifyApi {
         this._clientId = '780dec02d3024334a61a9b08ec12cc1a';
         this._secret = '0013bb0c5b4d4364b2c2c4a10c3369a4'
         this._auth = `${this._clientId}:${this._secret}`;
-        this._apiUrl =  'https://api.spotify.com/v1/search'
+        this._apiUrl =  'https://api.spotify.com/v1/'
         this._limit = 20; 
         this._token = '';
         this._tokenTTL = 0; 
@@ -79,11 +79,12 @@ class SpotifyApi {
 
     async getTracks(artist, track, term, page=0) {
         // build the query string; handle falsy parameters 
+        const path = 'search';
         const _term = term ? `${term}` : '';
         const _artist = artist ? `artist:${artist}` : '';
         const _track = track ? `track:${track}` : '';
         const query = `?q=${_term}${_artist} ${_track}&type=album,track&offset=${page}&limit=${this.limit}`;
-        const endpoint = `${this._apiUrl}${encodeURI(query)}`
+        const endpoint = `${this._apiUrl}${path}${encodeURI(query)}`
 
         const token = await this._getToken();     // Gets or return a saved access token
 
@@ -110,7 +111,10 @@ class SpotifyApi {
         {
             console.log(`Error in getTracks`, error)    
         }
-        return {};
+    }
+
+    getUserInfo() {
+
     }
 }
 
