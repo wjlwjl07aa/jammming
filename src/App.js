@@ -8,6 +8,7 @@ import SpotifyApi from './utilities/spotifyapi';
 function App({accessToken}) {
   // Get the spotify api wrapper (singleton)
   const api = new SpotifyApi(accessToken); 
+  console.log('api.userId', api.userId );
 
   // Spotify result, currently selected track
   const [ tracks, setTracks ] = useState([]);

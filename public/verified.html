@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+
+            function getCookieValue(name) {
+                return document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+            }
+            const auth = 'dogbyte';
+            const expires = new Date(Date.now() + 3600000); 
+            const authCookie = `auth=${auth};expires=${expires.toUTCString()}`;
+            document.cookie = authCookie;
+            document.cookie = `foo=noise; expires=${expires.toUTCString()}`;
+
+            console.log(`${document.location.host}${document.location.pathname}`);
+            console.log('auth', getCookieValue('auth'));
+            console.log('junk', getCookieValue('junk'));
+        </script>
+    </head>
+    <body>
+        <p>Spotify Redirect Page</p>
+    </body>
+</html>

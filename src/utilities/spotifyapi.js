@@ -28,17 +28,19 @@ class SpotifyApi {
         this._limit = 20; 
         this._token = access_token;
         this._tokenTTL = Date.now() + 3500000; 
+        
+        this.getUserInfo().then((res) => this._userId = res);
 
-        console.log('this._token', this._token)
-
-        this.getUserInfo().then( (res) => console.log('res', res));
+        console.log('this._token', this._token);
         console.log('this._userId', this._userId);
-    }
+
+   }
 
     /* Initializes, replaces an expiring token or returns this._token */  
 
     get limit() { return this._limit; }
     get userId() { return this._userId; }
+
     set limit(newLimit) { 
         if ( typeof newLimit !== 'number') return;
         this._limit = Math.min( Math.max(parseInt(newLimit),1), 100);
