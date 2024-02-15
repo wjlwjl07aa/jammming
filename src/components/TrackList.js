@@ -2,14 +2,14 @@ import React from 'react';
 import Track from './Track';
 import './TrackList.css';
 
-function TrackList({tracks, trackHandler}) {
+function TrackList({tracks, handleTrack}) {
     const items = 
         tracks ? 
             tracks.map( (x,i) => {
                 const key = 'track_' + i; 
-                return( <Track track={x} key={key} trackHandle={trackHandler}/> );
+                return( <Track track={x} key={key} handleTrack={handleTrack}/> );
             }) :  null;
-    
+
     return( 
         <div className = 'TrackList' id='TrackList'>
             <div className='tl-heading'>

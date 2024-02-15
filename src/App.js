@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
-import SpotifyApi from './utilities/spotifyapi.js';
 import SearchBar from './components/SearchBar';
 import TrackList from './components/TrackList';
 import PlayList from './components/PlayList';
+import SpotifyApi from './utilities/spotifyapi';
 
-function App() {
-  // Create Spotify API wrapper class 
-  const api = new SpotifyApi();
+function App({accessToken}) {
+  // Get the spotify api wrapper (singleton)
+  const api = new SpotifyApi(accessToken); 
 
   // Spotify result, currently selected track
   const [ tracks, setTracks ] = useState([]);
@@ -46,7 +46,7 @@ function App() {
   }
 
   const handleTrack = ({target}) => {
-    console.log(`handleTrack ${target.id}`);
+    console.log(`handleTrack target" ${target}`);
     setSelection( () => target.track );
   }
 
@@ -57,7 +57,7 @@ function App() {
           <h1>CodeCademy Jammming Portfolio Project</h1>
           <SearchBar onClick={handleOption} onChange={handleChange} 
             onSubmit={handleSubmit} selected={option} />
-            <p className='App-searchstat'>[Search by]: Track: {track} Artist: {artist} Option: {option} </p>
+            <p className='App-searchstat'>[User: ] [Search by]:Track: {track} Artist: {artist} Option: {option} </p>
         </header>
         <div className='App-content'>
           <TrackList tracks={tracks} handleTrack={handleTrack} />

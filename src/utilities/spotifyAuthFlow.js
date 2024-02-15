@@ -1,5 +1,5 @@
-/*
-    File:        spotifyapi.js
+
+/*  File:        spotifyAuthFlow.js
     Project:     CodeCademy Jammming 
     Author:      wjlwjl07aa@gmail.com
     Create Date: Feb. 12, 2024
@@ -8,22 +8,6 @@
     Copied from https://developer.spotify.com/documentation/web-api/howtos/web-app-profile
 */
 
-   
-const _SECRET = '0013bb0c5b4d4364b2c2c4a10c3369a4';
-const clientId = '780dec02d3024334a61a9b08ec12cc1a';
-const params = new URLSearchParams(window.location.search);
-const code = params.get("code");
-
-if (!code) {
-    redirectToAuthCodeFlow(clientId);
-} else {
-    const accessToken = await getAccessToken(clientId, code);
-    const codeTag = document.getElementById('code');
-    const tokenTag =  document.getElementById('token');
-
-    codeTag.innerHTML = code;
-    tokenTag.innerHTML = accessToken;
-}
 
 function generateCodeVerifier(length) {
     let text = '';
@@ -71,13 +55,18 @@ export async function getAccessToken(clientId, code) {
     params.append("redirect_uri", "http://localhost:3000");
     params.append("code_verifier", verifier);
 
-    const result = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params
-    });
-
-    const { access_token } = await result.json();
-    return access_token;
+    try {
+            const result = await fetch("https://accounts.spotify.com/api/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params
+        });
+        if ( result.ok ) {
+            const { access_token } = await result.json();
+            return access_token;
+        } else 
+            console.log('spotifyAuth error:', result.status, result.statusText);
+    } catch ( error ) {
+        console.log('Spoitfy auth error:', error );
+    }
 }
-

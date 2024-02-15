@@ -3,7 +3,7 @@
     Project:     CodeCademy Jammming 
     Author:      wjlwjl07aa@gmail.com
     Create Date: Feb. 12, 2024
-    Description: Module for Spotify web API functions 
+    Description: Class to wrap Spotify web API functions 
 
     Based on https://developer.spotify.com/documentation/web-api/howtos/web-app-profile and
             https://stackoverflow.com/questions/67128486/connect-to-spotify-api-with-command-line
@@ -15,15 +15,122 @@
 
 */
 
-let _debug = false;
-// let _auth64 = 'NzgwZGVjMDJkMzAyNDMzNGE2MWE5YjA4ZWMxMmNjMWE6MDAxM2JiMGM1YjRkNDM2NGIyYzJjNGExMGMzMzY5YTQ=';
+class SpotifyApi {
+
+    // Assume access_token has been obtained by a browser auth flow 
+    constructor(access_token) {
+        SpotifyApi.instance = this; 
+
+        this._clientId = '780dec02d3024334a61a9b08ec12cc1a';
+        this._secret = '0013bb0c5b4d4364b2c2c4a10c3369a4'
+        this._auth = `${this._clientId}:${this._secret}`;
+        this._apiUrl =  'https://api.spotify.com/v1/'
+        this._limit = 20; 
+        this._token = access_token;
+        this._tokenTTL = Date.now() + 3500000; 
+
+        console.log('this._token', this._token)
+
+        this.getUserInfo().then( (res) => console.log('res', res));
+        console.log('this._userId', this._userId);
+    }
+
+    /* Initializes, replaces an expiring token or returns this._token */  
+
+    get limit() { return this._limit; }
+    get userId() { return this._userId; }
+    set limit(newLimit) { 
+        if ( typeof newLimit !== 'number') return;
+        this._limit = Math.min( Math.max(parseInt(newLimit),1), 100);
+    } 
+
+    async getTracks(artist, track, term, page=0) {
+        // build the query string; handle falsy parameters 
+        const path = 'search';
+        const _term = term ? `${term}` : '';
+        const _artist = artist ? `artist:${artist}` : '';
+        const _track = track ? `track:${track}` : '';
+        const query = `?q=${_term}${_artist} ${_track}&type=album,track&offset=${page}&limit=${this.limit}`;
+        const endpoint = `${this._apiUrl}${path}${encodeURI(query)}`
+
+        // const token = await this._getToken();     // Gets or return a saved access token
+
+        console.log('endpoint', endpoint);
+
+        const options = {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${this._token}`}
+        };
+        
+        try 
+        {   
+            const response = await fetch(endpoint, options);
+    
+            if ( response.ok ) {
+                const jsonResponse = await response.json();  
+                // console.log('jsonResponse', jsonResponse);
+                return jsonResponse;
+            } else {
+                console.log(`Spotify repsonse :`, response.statusText);
+            }
+        }
+        catch (error)
+        {
+            console.log(`Error in getTracks`, error)    
+        }
+    }
+
+    async getUserInfo() {
+        const path = 'me';
+        const endpoint = `${this._apiUrl}${path}`;
+        // const token = await this._getToken();     // Gets or return a saved access token
+
+        const options = {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${this._token}`}
+        };
+
+        console.log('getUserInfo endpoint', endpoint);
+        console.log('headers', options);
+
+        try {
+            const response = await fetch(endpoint, options);
+            if ( response.ok ) {
+                const json = await response.json();
+                const {id} = json; 
+                return id;                 
+            } else
+                console.log('Spoitfy API returned error: ', response.status, response.statusText);
+        } catch( error ) {
+            console.log('getUserInfo error:', error );
+        }
+
+    }
+}
+
+// exports = { SpotifyApi };
+export default SpotifyApi;
 
 /* 
-    getAccessToken( auth );
+(async () => {
+    if ( process.argv.length > 2 && process.argv[2]==='--debug' )
+        _debug = true;
 
-    Fetches Spotify API access token.
-    auth is a concatenation of <client id>:<clien secret>
-*/
+    // const token = await getAccessToken('780dec02d3024334a61a9b08ec12cc1a:0013bb0c5b4d4364b2c2c4a10c3369a4');
+    // console.log('token', token);
+    
+    
+    const api = new SpotifyApi();
+    const user = await api.getUserInfo();
+    console.log('user', user);
+
+
+    // const data = await api.getTracks('Steely Dan','Pretzel Logic');
+    // const { tracks } = data;
+    // console.log('tracks', tracks);
+    // tracks.map( (x,i) => console.log(i, x));
+
+})();
 
 async function getAccessToken(auth) {
     const params = new URLSearchParams();
@@ -49,95 +156,5 @@ async function getAccessToken(auth) {
     }
 }
 
-class SpotifyApi {
-    
-    constructor() {
-        this._clientId = '780dec02d3024334a61a9b08ec12cc1a';
-        this._secret = '0013bb0c5b4d4364b2c2c4a10c3369a4'
-        this._auth = `${this._clientId}:${this._secret}`;
-        this._apiUrl =  'https://api.spotify.com/v1/'
-        this._limit = 20; 
-        this._token = '';
-        this._tokenTTL = 0; 
-    }
-
-    /* Initializes, replaces an expiring token or returns this._token */  
-    async _getToken() { 
-
-        if ( Date.now() > this._tokenTTL ) {   
-            this._token = await getAccessToken(this._auth);
-            this._tokenTTL = Date.now() + 3000;    // use 50 minutes to be safe; Spotify will expire at 3600
-        }
-        return this._token; 
-    }
-
-    get limit() { return this._limit; }
-    set limit(newLimit) { 
-        if ( typeof newLimit !== 'number') return;
-        this._limit = Math.min( Math.max(parseInt(newLimit),1), 100);
-    } 
-
-    async getTracks(artist, track, term, page=0) {
-        // build the query string; handle falsy parameters 
-        const path = 'search';
-        const _term = term ? `${term}` : '';
-        const _artist = artist ? `artist:${artist}` : '';
-        const _track = track ? `track:${track}` : '';
-        const query = `?q=${_term}${_artist} ${_track}&type=album,track&offset=${page}&limit=${this.limit}`;
-        const endpoint = `${this._apiUrl}${path}${encodeURI(query)}`
-
-        const token = await this._getToken();     // Gets or return a saved access token
-
-        console.log('endpoint', endpoint);
-
-        const options = {
-            method: 'GET',
-            headers: {Authorization: `Bearer ${token}`}
-        };
-        
-        try 
-        {   
-            const response = await fetch(endpoint, options);
-    
-            if ( response.ok ) {
-                const jsonResponse = await response.json();  
-                // console.log('jsonResponse', jsonResponse);
-                return jsonResponse;
-            } else {
-                console.log(`Spotify repsonse :`, response.statusText);
-            }
-        }
-        catch (error)
-        {
-            console.log(`Error in getTracks`, error)    
-        }
-    }
-
-    getUserInfo() {
-
-    }
-}
-
-// exports = { SpotifyApi };
-export default SpotifyApi;
-
-/*
-
-(async () => {
-    if ( process.argv.length > 2 && process.argv[2]==='--debug' )
-        _debug = true;
-
-    // const token = await getAccessToken('780dec02d3024334a61a9b08ec12cc1a:0013bb0c5b4d4364b2c2c4a10c3369a4');
-    // console.log('token', token);
-    
-    
-    const api = new SpotifyApi();
-    const data = await api.getTracks('Steely Dan','Pretzel Logic');
-
-    const { tracks } = data;
-    console.log('tracks', tracks);
-    tracks.map( (x,i) => console.log(i, x));
-
-})();
 
 */
