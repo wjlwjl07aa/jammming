@@ -27,8 +27,8 @@ function setAuthCookie(token) {
 }
 
 const accessToken = getCookieValue(authCookieName);
-console.log('accessToken: ',accessToken);
-console.log('cookies', document.cookie);
+// console.log('accessToken: ',accessToken);
+// console.log('cookies', document.cookie);
 
 /* 
   There are four states/cases to handle here:

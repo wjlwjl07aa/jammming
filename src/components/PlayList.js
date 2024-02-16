@@ -3,6 +3,16 @@ import './PlayList.css';
 
 function PlayList ({playList, handlePlayList}) {
 
+    const items = playList.map( (x) => {
+        return(
+            <div className='PlayList-item' key={x.id} id={x.id} >
+                <p className='PlayList-name'>{x.name.substring(0,30)}</p>
+                <p className='PlayList-artist'>{x.artist.substring(0,20)}</p>
+                <input className='PlayList-delete' onClick={handlePlayList} 
+                    id={x.id} type='button' value='-'></input>
+            </div>
+        );
+    });
 
     return ( 
         <div className='PlayList'>
@@ -11,10 +21,11 @@ function PlayList ({playList, handlePlayList}) {
             </div>
             <div className='PlayList-items'>
                 <div className='PlayList-input'>
-                    <input type='text'></input>
+                    <input className='PlayList-savename' type='text' id='playlistName' />
                 </div>
+                { items }
                 <div className='PlayList-footer'>
-                <input type='button' id='save' value='Save Playlist' />
+                    <input className='PlayList-save' type='button' value='Save Playlist'  />
                 </div>
             </div>
         </div>

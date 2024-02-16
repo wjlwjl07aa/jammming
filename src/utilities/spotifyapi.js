@@ -31,8 +31,8 @@ class SpotifyApi {
         
         this.getUserInfo().then((res) => this._userId = res);
 
-        console.log('this._token', this._token);
-        console.log('this._userId', this._userId);
+   //   console.log('this._token', this._token);
+   //   console.log('this._userId', this._userId);
 
    }
 
@@ -55,9 +55,7 @@ class SpotifyApi {
         const query = `?q=${_term}${_artist} ${_track}&type=album,track&offset=${page}&limit=${this.limit}`;
         const endpoint = `${this._apiUrl}${path}${encodeURI(query)}`
 
-        // const token = await this._getToken();     // Gets or return a saved access token
-
-        console.log('endpoint', endpoint);
+        // console.log('endpoint', endpoint);
 
         const options = {
             method: 'GET',
@@ -85,15 +83,14 @@ class SpotifyApi {
     async getUserInfo() {
         const path = 'me';
         const endpoint = `${this._apiUrl}${path}`;
-        // const token = await this._getToken();     // Gets or return a saved access token
 
         const options = {
             method: 'GET',
             headers: {Authorization: `Bearer ${this._token}`}
         };
 
-        console.log('getUserInfo endpoint', endpoint);
-        console.log('headers', options);
+        // console.log('getUserInfo endpoint', endpoint);
+        // console.log('headers', options);
 
         try {
             const response = await fetch(endpoint, options);

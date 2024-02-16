@@ -7,7 +7,7 @@ function TrackList({tracks, handleTrack}) {
         tracks ? 
             tracks.map( (x,i) => {
                 const key = 'track_' + i; 
-                return( <Track track={x} key={key} handleTrack={handleTrack}/> );
+                return( <Track track={x} key={key} handleTrack={handleTrack} /> );
             }) :  null;
 
     return( 

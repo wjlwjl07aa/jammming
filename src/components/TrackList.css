@@ -1,21 +1,22 @@
 .TrackList {
+    width: 63%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
     overflow: auto;
     text-align: left;
     background-color: rgb(152, 197, 216);
     float: left;
-    width: 70%;
+    margin: 1%;
+    height: 100%;
 }
 
 
  .tl-heading {
-    min-height: 3ch;
+    width: 63%;
     background-color: rgb(15, 66, 87);
     color: bisque;
     font-weight: 700;
     position: fixed;
-    width: 70%;
     z-index: 1;
     border: 1px dotted black;
 }
@@ -34,7 +35,7 @@
 }
 
 .tl-col2 {
-    width: 40ch;
+    width: 20ch;
     display: inline-block;
 }
 

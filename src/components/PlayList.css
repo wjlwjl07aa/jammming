@@ -1,13 +1,17 @@
 .PlayList {
-    width: 30%;
+    width: 33%;
     font-size: 10pt;
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(152, 197, 216);
+    overflow: auto;
     float: right;
+    display: block;
+    height: 100%;
+    margin: 1%
 }
 
 .PlayList-heading {
-    width: 30%;
+    width: 33%;
     background-color: rgb(15, 66, 87);
     color: bisque;
     font-weight: 700;
@@ -20,23 +24,64 @@
 .PlayList-items {
     position: relative;
     top: 42px;
-    height: auto;
     width: 100%;
+    text-align: left;
+    height: auto;
 }
+
+.PlayList-item {
+    font-size: 10pt;
+    padding: 0 1ch;
+    width: 100%;
+    border: 1px dotted black;
+    overflow: hidden;
+}
+
+.PlayList-name {
+    display: inline-block;
+    width: 30ch;
+}
+
+.PlayList-artist {
+    display: inline-block;
+    width: 20ch;
+}
+
+.PlayList-delete {
+    float: right;
+    font-weight: 700;
+    border-radius: 100%;
+    background-color: rgb(189, 71, 71);
+    margin: 10px;
+}
+
+.PlayList-save {
+    display: block;
+    background-color: rgb(98, 112, 231);
+    font-size: 14pt;
+    border-radius: 8%;
+    padding: 5px;
+    margin: auto;
+}
+
 
 .PlayList-footer {
     text-align: center;
+    align-items: center;
+    margin: 1ch;
 }
 
 .PlayList-input {
-    visibility: hidden;
-    background-color: brown;
+    margin: auto;
+    padding: 5px;
 }
 
-.PlayList input[type='button'] {
-    border: 1px dotted black;
-    color: rgb(67, 16, 116);
-    font-size: 14pt;
-    border-radius: 10%;
+.PlayList-savename {
+    display: block;
+    background-color: rgb(152, 197, 216);
+    font-size: 14px;
+    border: 0;
     padding: 5px;
+    width: 30ch;
+    margin: auto;
 }

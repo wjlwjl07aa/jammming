@@ -3,8 +3,9 @@
     font-size: 10pt;
     border: 1px dotted black;
     text-align: left;
-    display: block;
+    padding: 0 1ch;
     width: 100%;
+    overflow: hidden;
 }
 
 .Artist {
@@ -13,7 +14,7 @@
 }
 
 .Album {
-    width: 40ch;
+    width: 20ch;
     display: inline-block;
 }
 
@@ -26,5 +27,6 @@
     font-weight: 700;
     border-radius: 100%;
     float: right;
+    background-color: darkolivegreen;
     margin: 10px;
 }

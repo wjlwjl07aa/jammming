@@ -8,11 +8,11 @@ import SpotifyApi from './utilities/spotifyapi';
 function App({accessToken}) {
   // Get the spotify api wrapper (singleton)
   const api = new SpotifyApi(accessToken); 
-  console.log('api.userId', api.userId );
+  // console.log('api.userId', api.userId );
 
-  // Spotify result, currently selected track
+  // Spotify result, currently selected track, playlist (items)
   const [ tracks, setTracks ] = useState([]);
-  const [ selection, setSelection ] = useState(null);
+  const [ playList, setPlayList ] = useState([]);      
 
   // Search Parameters 
   const [ track, setTrack] = useState('');
@@ -47,8 +47,31 @@ function App({accessToken}) {
   }
 
   const handleTrack = ({target}) => {
-    console.log(`handleTrack target" ${target}`);
-    setSelection( () => target.track );
+    const track = tracks.find( (x) => x.id ===target.id );
+    if ( track ) 
+      addToPlayList(track.id);
+
+  }
+
+  const handlePlayList = ({target}) => {
+    console.log('handlePlayList target.id', target.track.id);
+  }
+
+  const addToPlayList = (id) => {
+    const track = tracks.find( (t) => t.id === id);
+
+    if ( track ) {
+      const exists = playList.find( (x) => x.id === id ); 
+
+      if ( !exists ) {
+        const newItem = { id: track.id, name: track.name, artist: track.artists[0].name }; 
+        setPlayList( (x) => [...playList, newItem] );
+      }
+    }
+  }
+
+  const checkPlayList = (id) => {
+    return playList.find( (x) => x.id === id);
   }
 
   return (
@@ -62,7 +85,7 @@ function App({accessToken}) {
         </header>
         <div className='App-content'>
           <TrackList tracks={tracks} handleTrack={handleTrack} />
-          <PlayList handlePlayList={() => {}} />
+          <PlayList handlePlayList={handlePlayList} playList={playList} />
         </div>
       </main>
     </div>
