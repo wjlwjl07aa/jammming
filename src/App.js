@@ -14,6 +14,7 @@ function App({accessToken}) {
   const [ tracks, setTracks ] = useState([]);
   const [ playList, setPlayList ] = useState([]);
   const [ playListStatus, setPlayListStatus ] = useState('');
+  const [ playListName, setPlayListName ] = useState('');
 
   // Search Parameters 
   const [ track, setTrack] = useState('');
@@ -33,10 +34,13 @@ function App({accessToken}) {
     event.preventDefault();
 
     const regex = /^[a-zA-Z0-9 '\-\b,! ]*$/;
-    const ftab = {track: [setTrack,track], artist: [setArtist,artist]};
+    const ftab = {track: [setTrack,track], artist: [setArtist,artist], 
+                  playListName: [setPlayListName, playListName]};
     const setter = ftab[event.target.id][0] || ((x) => x);
     const prev = ftab[event.target.id][1] || '';
     let val = event.target.value;
+
+    console.log('event.target.id', event.target.id);
 
     if (!regex.test(val)) val = prev;
     event.target.value = val;
@@ -54,7 +58,7 @@ function App({accessToken}) {
 
   }
 
-  const handlePlayList = ({target}) => {
+  const deletePlayList = ({target}) => {
     const item = playList.find( (x) => x.id === target.id )
     // TODO check target.name 
     if ( item )
@@ -110,12 +114,13 @@ function App({accessToken}) {
           <h1>CodeCademy Jammming Portfolio Project</h1>
           <SearchBar onClick={handleOption} onChange={handleChange} 
             onSubmit={handleSubmit} selected={option} />
-            <p className='App-searchstat'>[User: ] [Search by]:Track: {track} Artist: {artist} Option: {option} </p>
+            <p className='App-searchstat'>[User: ] [Search by]:Track: {track} Artist: {artist} Playlist: {playListName} </p>
         </header>
         <div className='App-content'>
           <TrackList tracks={tracks} handleTrack={handleTrack} />
-          <PlayList savePlayList={savePlayList} handlePlayList={handlePlayList} 
-                    playList={playList} playListStatus={playListStatus} />
+          <PlayList playList={playList} playListName={playListName} 
+                    playListStatus={playListStatus} handleChange={handleChange} 
+                    savePlayList={savePlayList} deletePlayList={deletePlayList} />
         </div>
       </main>
     </div>

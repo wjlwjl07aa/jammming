@@ -4,21 +4,23 @@
     font-size: 10pt;
     overflow: auto;
     text-align: left;
-    background-color: rgb(152, 197, 216);
+    background-color: rgb(221, 155, 139);
     float: left;
     margin: 1%;
     height: 100%;
+    opacity: 90%;
 }
 
 
  .tl-heading {
-    width: 63%;
-    background-color: rgb(15, 66, 87);
+    width: 61.75%;
+    background-color: rgb(175, 52, 31);
     color: bisque;
     font-weight: 700;
     position: fixed;
     z-index: 1;
     border: 1px dotted black;
+    padding: 0 1ch;
 }
 
  .tl-items {
@@ -26,7 +28,7 @@
     top: 46px;
     height: auto;
     width: 100%;
- }
+}
 
  .tl-col1 {
     width: 20ch;
