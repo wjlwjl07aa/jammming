@@ -12,7 +12,8 @@ function App({accessToken}) {
 
   // Spotify result, currently selected track, playlist (items)
   const [ tracks, setTracks ] = useState([]);
-  const [ playList, setPlayList ] = useState([]);      
+  const [ playList, setPlayList ] = useState([]);
+  const [ playListStatus, setPlayListStatus ] = useState('');
 
   // Search Parameters 
   const [ track, setTrack] = useState('');
@@ -54,7 +55,30 @@ function App({accessToken}) {
   }
 
   const handlePlayList = ({target}) => {
-    console.log('handlePlayList target.id', target.track.id);
+    const item = playList.find( (x) => x.id === target.id )
+    // TODO check target.name 
+    if ( item )
+      deletePlayListItem(item.id);
+  }
+
+  const savePlayList = async (name) => {
+    let status = '';
+    const regex = /^[a-zA-Z0-9 .+\-_!]*$/;
+
+    if ( playList && playList.length > 0 ) {
+      if ( name && name.trim().length > 0) {
+        const saveName = name.trim();
+        if ( regex.test(saveName) ) {
+          status = `TODO save playlist: ${saveName}`;
+        } else 
+          status = `Invalid characters in name`;
+      } else
+        status = 'Please enter a name for this playlist';  
+    } else 
+      status = 'Playlist is empty';
+      
+    setPlayListStatus( () => status )
+
   }
 
   const addToPlayList = (id) => {
@@ -68,6 +92,11 @@ function App({accessToken}) {
         setPlayList( (x) => [...playList, newItem] );
       }
     }
+  }
+
+  const deletePlayListItem = (id) => {
+    const items = playList.filter( (x) => x.id !== id );
+    setPlayList( () => items ); 
   }
 
   const checkPlayList = (id) => {
@@ -85,7 +114,8 @@ function App({accessToken}) {
         </header>
         <div className='App-content'>
           <TrackList tracks={tracks} handleTrack={handleTrack} />
-          <PlayList handlePlayList={handlePlayList} playList={playList} />
+          <PlayList savePlayList={savePlayList} handlePlayList={handlePlayList} 
+                    playList={playList} playListStatus={playListStatus} />
         </div>
       </main>
     </div>
