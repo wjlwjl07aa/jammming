@@ -1,10 +1,9 @@
 /*  
     File:        index.js 
     Project:     CodeCademy Jammming 
-    Author:      wjlwjl07aa@gmail.com
+    Author:      wjlwjl07aa
     Create Date: Feb. 12, 2024
     Description: Initial landing 'page'. Handles Spotify Auth flow and redirects  
-                 Handle all async calls from SpotifyApi 
     Uses:        spotifyAuthFlow.js 
 
     Sources and Steals: 

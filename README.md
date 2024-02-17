@@ -1,70 +1,30 @@
-# Getting Started with Create React App
+# <code>wjlwjl07aa's CodeCademy Jammming Project</code> February 17, 2024
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Description 
 
-In the project directory, you can run:
+CodeCademy <code>Jammming</code> React portfolio projecet 
 
-### `npm start`
+Allow a Spotify users to search for tracks and save them to a (private) play list. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This app uses browser based Spoitfy (Oath) authentication flow to obtain a Spotify auth token, 
+this approach is implemented in <code>/src/index.js</code> and <code>/src/spotifyAuthFlow.js</code>. This approach, as opposed to obtaining an auth token non-interactively in a function,
+is necessary because the playlist API requires a userId. The auth token is stored in an 
+expiring cookie. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## TODO 
 
-### `npm test`
+1.  Presently, the app does not perform an automatic refresh of the token before it 
+    expires: Implement a refresh of the Spotify auth token at 50 minutes.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2.  Build a production version and deploy in a cloud based container.
 
-### `npm run build`
+3.  Test the app in Mozilla, Firefox and Opera. The app has only been tested in 
+    Chrome because Firefox and Opera do not (easily) support localhost (at least
+    not on a ChromeOS Chromebook. my currently dev machine). 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4.  Implement a 'Play' option using the Spotify player. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5.  Write a unit test suite with Jest or some other tool.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

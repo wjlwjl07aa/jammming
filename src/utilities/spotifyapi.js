@@ -110,7 +110,7 @@ class SpotifyApi {
     // to create and add items to a playlist (respectively).
     //  
     async addPlayList(name, playListUris) {
-        if ( !playListUris || playListUris.length == 0) return(false); 
+        if ( !playListUris || playListUris.length === 0) return(false); 
         
         const userId = await this.getUserInfo();
         console.log('addPlayList userId', userId);
