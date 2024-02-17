@@ -1,3 +1,15 @@
+/*  
+    File:        SearchBar.js
+    Project:     CodeCademy Jammming 
+    Author:      wjlwjl07aa
+    Create Date: Feb. 12, 2024
+    Description: React component display in the App header. Has inputs for searching 
+                 on Artist and Track name and a 'Search' button. 
+                 The seaech options are not rendered (because: const menu = [])
+                 The playlist objects contains: { name: ... id: ... artist: .. uri: ...}
+                 All handlers are passed in from App.js <App />     
+*/
+
 import React from 'react';
 import './SearchBar.css';
 

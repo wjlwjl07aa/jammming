@@ -1,3 +1,13 @@
+/* 
+    File:        TrackList.js 
+    Project:     CodeCademy Jammming  
+    Author:      wjlwjl07aa 
+    Create Date: Feb. 13, 2024
+    Description: React Component to display Spotify Tracks  
+                 Displays a list of <Track /> components 
+                 handleTrack (adds to playlist) passed from <App> to <TrackList> to <Track />   
+*/
+
 import React from 'react';
 import './Track.css';
 

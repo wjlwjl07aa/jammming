@@ -1,9 +1,18 @@
+/*  
+    File:        PlayList.js
+    Project:     CodeCademy Jammming 
+    Author:      wjlwjl07aa
+    Create Date: Feb. 12, 2024
+    Description: React component to display a user created playlist
+                 The playlist objects contains: { name: ... id: ... artist: .. uri: ...}
+                 All state values and handlers are passed in App.js <App />     
+*/
+
 import React from 'react';
 import './PlayList.css';
 
   
 function PlayList ({playList, playListName, playListStatus, handleChange, savePlayList, deletePlayList}) {
-    const pattern = '[a-zA-Z0-9_.!\'\\s]+';
 
     const handleSave = (event) => {
         const savename = document.getElementById('playListName').value.trim();

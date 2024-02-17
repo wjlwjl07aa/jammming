@@ -1,6 +1,16 @@
+/* 
+    File:        TrackList.js 
+    Project:     CodeCademy Jammming 
+    Author:      wjlwjl07aa      
+    Create Date: Feb. 12, 2024
+    Description: Component for rendering tracks returned from a Spotify search. 
+                 Displays a list of <Track /> components 
+                 Passes handleTrack through to <Track /> items (add to play list)
+*/
+
 import React from 'react';
 import Track from './Track';
-import './TrackList.css';
+import './TrackList.css'; 
 
 function TrackList({tracks, handleTrack}) {
     const items = 

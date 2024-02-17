@@ -5,11 +5,11 @@
     Create Date: Feb. 12, 2024
     Description: Class to wrap Spotify web API functions 
 
-    Based on https://developer.spotify.com/documentation/web-api/howtos/web-app-profile and
-            https://stackoverflow.com/questions/67128486/connect-to-spotify-api-with-command-line
+    Sources and Steals:
 
+    https://developer.spotify.com/documentation/web-api/howtos/web-app-profile
+    https://stackoverflow.com/questions/67128486/connect-to-spotify-api-with-command-line
     https://api.spotify.com/v1/search
-
     curl --request GET --url ''https://api.spotify.com/v1/search?q='https://api.spotify.com/v1/search?q=remaster%2520track%3ADoxy%2520artist%3AMiles%2520Davis&type=album%2Ctrack&market=US&limit=20&offset=0' --header `Authorization: Bearer ${token}`
     unencoded q=remaster track:Doxy artist: Miles Davis&type=album,track&market=US&limit=20&offset=0
 
@@ -29,11 +29,8 @@ class SpotifyApi {
         this._token = access_token;
         this._tokenTTL = Date.now() + 3500000; 
         
-        this.getUserInfo().then((res) => this._userId = res);
-
-   //   console.log('this._token', this._token);
-   //   console.log('this._userId', this._userId);
-
+        // TODO: figure how to make this work without await ...
+        // this.getUserInfo().then((res) => this._userId = res);
    }
 
     /* Initializes, replaces an expiring token or returns this._token */  
@@ -46,6 +43,7 @@ class SpotifyApi {
         this._limit = Math.min( Math.max(parseInt(newLimit),1), 100);
     } 
 
+    // Call Spotify /search enpoint and return a list of tracks 
     async getTracks(artist, track, term, page=0) {
         // build the query string; handle falsy parameters 
         const path = 'search';
@@ -80,6 +78,7 @@ class SpotifyApi {
         }
     }
 
+    // Call Spotify /me endpoint to return a user id 
     async getUserInfo() {
         const path = 'me';
         const endpoint = `${this._apiUrl}${path}`;
@@ -105,6 +104,69 @@ class SpotifyApi {
         }
 
     }
+
+    //
+    // Calls the Spotify /user/{user}/playlists and /playlist/{id}/tracks  
+    // to create and add items to a playlist (respectively).
+    //  
+    async addPlayList(name, playListUris) {
+        if ( !playListUris || playListUris.length == 0) return(false); 
+        
+        const userId = await this.getUserInfo();
+        console.log('addPlayList userId', userId);
+        if ( !userId ) return(false); 
+
+        const addPath = `users/${userId}/playlists`;
+        try {
+            // 1. Add The Playlist 
+            let endpoint = `${this._apiUrl}${addPath}`;
+            let data = {name: name, description: name, public: false}; 
+            let options = { method: 'POST',
+                            headers: {  Authorization: `Bearer ${this._token}`,
+                            'Content-Type': 'application/json' },
+                            body: JSON.stringify(data) };
+            
+            console.log('options', options);
+            console.log('endpoint', endpoint);
+
+            const addRes = await fetch(endpoint, options);
+
+            // 2, Add the items to the playlist
+            if ( addRes.ok ) {
+                const {id} = await addRes.json(); 
+                console.log('add Playlist response', id);
+                
+                // Now add the items 
+                const addItemsPath = `playlists/${id}/tracks`
+                endpoint = `${this._apiUrl}${addItemsPath}`;
+                data = {uris: playListUris};
+                options = {  method: 'POST',
+                            headers: {  Authorization: `Bearer ${this._token}`,
+                            'Content-Type': 'application/json' },
+                            body: JSON.stringify(data) };
+
+                console.log('Add items endpoint', endpoint);
+                console.log('Add items', options);
+
+                const itemsRes = await fetch(endpoint, options);
+                if ( itemsRes.ok ) {
+                    const {snapshot_id} = await itemsRes.json(); 
+                    console.log('Add Items snapshot_id', snapshot_id);
+
+                    return snapshot_id;
+                } else {
+                    console.log('addPlayList Spotify error', addRes.status, addRes.statusText);
+                }
+            } else {
+                console.log('addPlayList Spotify error', addRes.status, addRes.statusText);
+            }
+        } catch( error ) {
+            console.log('addPlayList error:', error);
+        }
+
+        return false;
+    }
+
 }
 
 // exports = { SpotifyApi };

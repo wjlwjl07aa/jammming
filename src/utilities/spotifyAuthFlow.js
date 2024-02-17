@@ -1,11 +1,13 @@
 
-/*  File:        spotifyAuthFlow.js
+/*  
+    File:        spotifyAuthFlow.js
     Project:     CodeCademy Jammming 
     Author:      wjlwjl07aa@gmail.com
-    Create Date: Feb. 12, 2024
-    Description: Browser Module for Spotify web API functions 
+    Create Date: Feb. 14, 2024
+    Description: Code helpers to implement Spotify browser based Auth flow.  
 
-    Copied from https://developer.spotify.com/documentation/web-api/howtos/web-app-profile
+    Sources and Steals (mostly stolen): 
+    https://developer.spotify.com/documentation/web-api/howtos/web-app-profile
 */
 
 
@@ -38,7 +40,7 @@ export async function redirectToAuthCodeFlow(clientId) {
     params.append("client_id", clientId);
     params.append("response_type", "code");
     params.append("redirect_uri", "http://localhost:3000");
-    params.append("scope", "user-read-private user-read-email");
+    params.append("scope", "user-read-private user-read-email playlist-modify-private");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 

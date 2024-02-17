@@ -1,3 +1,16 @@
+/*  
+    File:        index.js 
+    Project:     CodeCademy Jammming 
+    Author:      wjlwjl07aa@gmail.com
+    Create Date: Feb. 12, 2024
+    Description: Initial landing 'page'. Handles Spotify Auth flow and redirects  
+                 Handle all async calls from SpotifyApi 
+    Uses:        spotifyAuthFlow.js 
+
+    Sources and Steals: 
+    https://developer.spotify.com/documentation/web-api/howtos/web-app-profile
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
